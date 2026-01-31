@@ -161,7 +161,7 @@ const seedAdmin = async () => {
                     role: 'ADMIN'
                 }
             });
-            console.log('✅ Default admin user created (admin@admin.com / admin)');
+            console.log('✅ Default admin user created');
         }
     } catch (error) {
         console.error('Failed to seed admin:', error);
