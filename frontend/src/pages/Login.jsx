@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../api/events';
 import { useAuth } from '../context/AuthContext';
+import { Lock, ArrowRight } from 'lucide-react';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -29,45 +30,45 @@ const Login = () => {
 
     return (
         <div className="max-w-md mx-auto animate-fade-in-up">
-            <div className="glass-card rounded-3xl p-10 shadow-2xl">
+            <div className="bg-white rounded-3xl p-10 shadow-2xl border border-slate-200">
                 <div className="text-center mb-8">
-                    <div className="w-20 h-20 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-                        <span className="text-4xl">🔐</span>
+                    <div className="w-20 h-20 bg-[#005596] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <Lock size={32} className="text-white" />
                     </div>
-                    <h1 className="text-4xl font-bold text-white mb-2">Welcome Back</h1>
-                    <p className="text-slate-400">Sign in to your account</p>
+                    <h1 className="text-4xl font-bold text-slate-800 mb-2 font-serif">Welcome Back</h1>
+                    <p className="text-slate-500">Sign in to your account</p>
                 </div>
 
                 {error && (
-                    <div className="bg-red-500/20 border border-red-400/30 text-red-300 px-4 py-3 rounded-xl mb-6 text-sm">
+                    <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-6 text-sm">
                         {error}
                     </div>
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block text-sm font-semibold text-slate-300 mb-2">
+                        <label className="block text-sm font-semibold text-slate-700 mb-2">
                             Email
                         </label>
                         <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-5 py-4 glass-dark rounded-xl text-white placeholder-slate-500 focus:ring-2 focus:ring-blue-500 outline-none border border-transparent focus:border-blue-500/50 transition"
-                            placeholder="admin@admin.com or your@email.com"
+                            className="w-full px-5 py-4 bg-slate-50 rounded-xl text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-[#005596] outline-none border border-slate-200 focus:border-[#005596] transition"
+                            placeholder="your@email.com"
                             required
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-semibold text-slate-300 mb-2">
+                        <label className="block text-sm font-semibold text-slate-700 mb-2">
                             Password
                         </label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-5 py-4 glass-dark rounded-xl text-white placeholder-slate-500 focus:ring-2 focus:ring-blue-500 outline-none border border-transparent focus:border-blue-500/50 transition"
+                            className="w-full px-5 py-4 bg-slate-50 rounded-xl text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-[#005596] outline-none border border-slate-200 focus:border-[#005596] transition"
                             placeholder="Enter your password"
                             required
                         />
@@ -76,7 +77,7 @@ const Login = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full gradient-primary px-6 py-4 rounded-xl font-bold hover:shadow-lg hover:shadow-blue-500/50 transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+                        className="w-full bg-[#005596] hover:bg-[#00447a] text-white px-6 py-4 rounded-xl font-bold shadow-lg hover:shadow-blue-900/20 transition-all transform hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
                     >
                         {loading ? (
                             <>
@@ -85,7 +86,7 @@ const Login = () => {
                             </>
                         ) : (
                             <>
-                                <span>🚀</span>
+                                <ArrowRight size={20} />
                                 <span>Sign In</span>
                             </>
                         )}
@@ -93,19 +94,15 @@ const Login = () => {
                 </form>
 
                 <div className="mt-8 text-center">
-                    <p className="text-slate-400 text-sm">
+                    <p className="text-slate-500 text-sm">
                         Don't have an account?{' '}
-                        <Link to="/register" className="text-blue-400 hover:text-blue-300 font-semibold transition">
+                        <Link to="/register" className="text-[#005596] hover:text-[#00447a] font-semibold transition">
                             Create one
                         </Link>
                     </p>
                 </div>
 
-                <div className="mt-6 pt-6 border-t border-white/10">
-                    <p className="text-xs text-slate-500 text-center">
-                        💡 Default admin: <span className="text-blue-400 font-mono">admin@admin.com / admin</span>
-                    </p>
-                </div>
+
             </div>
         </div>
     );

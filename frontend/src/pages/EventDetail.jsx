@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { api } from '../api/events';
 import { useAuth } from '../context/AuthContext';
+import { Calendar, MapPin, Ticket, Shield, Info, ArrowRight, Lock, Clock } from 'lucide-react';
 
 const EventDetail = () => {
     const { id } = useParams();
@@ -37,65 +38,64 @@ const EventDetail = () => {
     if (loading || !event) {
         return (
             <div className="text-center py-32 animate-fade-in">
-                <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent mb-4"></div>
-                <p className="text-slate-400 font-medium">Loading event...</p>
+                <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-[#005596] border-t-transparent mb-4"></div>
+                <p className="text-slate-500 font-medium">Loading event...</p>
             </div>
         );
     }
 
     return (
         <div className="max-w-4xl mx-auto animate-fade-in-up">
-            <div className="glass-card rounded-3xl overflow-hidden shadow-2xl">
+            <div className="bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
                 {/* Hero Header */}
-                <div className="h-72 bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 relative overflow-hidden p-10 flex items-end">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                    {/* Floating Orbs */}
-                    <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
-                    <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl"></div>
+                <div className="h-72 bg-[#005596] relative overflow-hidden p-10 flex items-end">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                    {/* Background Pattern */}
+                    <div className="absolute -top-20 -right-20 w-[600px] h-[600px] bg-[#FDC500]/10 rounded-full blur-3xl"></div>
 
                     <div className="relative z-10 w-full">
-                        <div className="glass-dark px-4 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2 mb-4 backdrop-blur-xl">
-                            <span>🎓</span>
-                            <span>Campus Event</span>
+                        <div className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-lg text-sm font-semibold text-white inline-flex items-center gap-2 mb-4 border border-white/20">
+                            <Shield size={16} className="text-[#FDC500]" />
+                            <span>AMU Official Event</span>
                         </div>
-                        <h1 className="text-5xl font-bold text-white mb-2 text-shadow">{event.title}</h1>
+                        <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 font-serif tracking-tight">{event.title}</h1>
                     </div>
                 </div>
 
                 {/* Content */}
                 <div className="p-10">
                     {/* Meta Info */}
-                    <div className="flex flex-wrap gap-3 mb-10">
-                        <span className="glass-dark px-5 py-3 rounded-xl text-sm font-semibold flex items-center gap-2 backdrop-blur-xl">
-                            <span className="text-lg">📅</span>
-                            <span className="text-white">{new Date(event.date).toLocaleString()}</span>
+                    <div className="flex flex-wrap gap-4 mb-10">
+                        <span className="bg-slate-50 px-5 py-3 rounded-xl text-sm font-semibold text-slate-700 flex items-center gap-3 border border-slate-200">
+                            <Calendar size={20} className="text-[#005596]" />
+                            <span>{new Date(event.date).toLocaleString()}</span>
                         </span>
-                        <span className="glass-dark px-5 py-3 rounded-xl text-sm font-semibold flex items-center gap-2 backdrop-blur-xl">
-                            <span className="text-lg">📍</span>
-                            <span className="text-white">{event.location}</span>
+                        <span className="bg-slate-50 px-5 py-3 rounded-xl text-sm font-semibold text-slate-700 flex items-center gap-3 border border-slate-200">
+                            <MapPin size={20} className="text-[#005596]" />
+                            <span>{event.location}</span>
                         </span>
-                        <span className={`px-5 py-3 rounded-xl text-sm font-bold flex items-center gap-2 backdrop-blur-xl ${event.remainingSpots > 0
-                                ? 'bg-emerald-500/20 border border-emerald-400/30 text-emerald-300'
-                                : 'bg-red-500/20 border border-red-400/30 text-red-300'
+                        <span className={`px-5 py-3 rounded-xl text-sm font-bold flex items-center gap-3 border ${event.remainingSpots > 0
+                                ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                : 'bg-red-50 text-red-700 border-red-200'
                             }`}>
-                            <span className="text-lg">🎟️</span>
+                            <Ticket size={20} />
                             <span>{event.remainingSpots > 0 ? `${event.remainingSpots} spots left` : 'Fully Booked'}</span>
                         </span>
                     </div>
 
                     {/* Description */}
                     <div className="mb-10">
-                        <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                            <span>📄</span>
+                        <h3 className="text-2xl font-bold text-slate-800 mb-4 flex items-center gap-2 font-serif">
+                            <Info className="text-[#FDC500]" />
                             <span>About this event</span>
                         </h3>
-                        <p className="text-slate-400 leading-relaxed text-lg">{event.description}</p>
+                        <p className="text-slate-600 leading-relaxed text-lg">{event.description}</p>
                     </div>
 
                     {/* Registration Section */}
-                    <div className="glass-dark rounded-2xl p-8 border border-white/10 backdrop-blur-xl">
-                        <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-                            <span>🎫</span>
+                    <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200 shadow-inner">
+                        <h3 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2 font-serif">
+                            <Ticket className="text-[#005596]" />
                             <span>Reserve Your Spot</span>
                         </h3>
 
@@ -104,7 +104,7 @@ const EventDetail = () => {
                                 <button
                                     onClick={handleRegister}
                                     disabled={event.remainingSpots <= 0 || registering}
-                                    className="w-full gradient-primary px-10 py-4 rounded-xl font-bold hover:shadow-lg hover:shadow-blue-500/50 transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+                                    className="w-full bg-[#005596] hover:bg-[#00447a] text-white px-10 py-4 rounded-xl font-bold shadow-lg hover:shadow-blue-900/20 transition-all transform hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
                                 >
                                     {registering ? (
                                         <>
@@ -113,31 +113,31 @@ const EventDetail = () => {
                                         </>
                                     ) : event.remainingSpots > 0 ? (
                                         <>
-                                            <span>✨</span>
+                                            <Ticket size={20} />
                                             <span>Reserve Now</span>
                                         </>
                                     ) : (
                                         <>
-                                            <span>❌</span>
+                                            <Lock size={20} />
                                             <span>Full</span>
                                         </>
                                     )}
                                 </button>
                                 {event.remainingSpots > 0 && event.remainingSpots <= 10 && (
-                                    <p className="mt-4 text-sm text-amber-400 flex items-center gap-2">
-                                        <span>⚠️</span>
+                                    <p className="mt-4 text-sm text-amber-600 flex items-center gap-2 font-medium bg-amber-50 p-3 rounded-lg border border-amber-200">
+                                        <Clock size={16} />
                                         <span>Hurry! Only {event.remainingSpots} spot{event.remainingSpots !== 1 ? 's' : ''} remaining!</span>
                                     </p>
                                 )}
                             </>
                         ) : (
                             <div className="text-center py-6">
-                                <p className="text-slate-400 mb-6">You need to be logged in to register for this event</p>
+                                <p className="text-slate-500 mb-6">You need to be logged in to register for this event</p>
                                 <Link
                                     to="/login"
-                                    className="inline-flex items-center gap-2 gradient-primary px-10 py-4 rounded-xl font-bold hover:shadow-lg hover:shadow-blue-500/50 transition-all transform hover:scale-[1.02]"
+                                    className="inline-flex items-center gap-2 bg-[#005596] hover:bg-[#00447a] text-white px-10 py-4 rounded-xl font-bold shadow-lg hover:shadow-blue-900/20 transition-all transform hover:scale-[1.01]"
                                 >
-                                    <span>🔐</span>
+                                    <Lock size={18} />
                                     <span>Login to Register</span>
                                 </Link>
                             </div>

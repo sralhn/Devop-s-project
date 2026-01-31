@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/events';
+import { Sparkles, FileText, Calendar, MapPin, Users, Send } from 'lucide-react';
 
 const CreateEvent = () => {
     const navigate = useNavigate();
@@ -32,25 +33,25 @@ const CreateEvent = () => {
 
     return (
         <div className="max-w-3xl mx-auto animate-fade-in-up">
-            <div className="glass-card rounded-3xl p-10 shadow-2xl">
+            <div className="bg-white rounded-3xl p-10 shadow-2xl border border-slate-200">
                 {/* Header */}
                 <div className="text-center mb-10">
                     <div className="inline-block mb-4">
-                        <div className="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center text-3xl shadow-lg mx-auto">
-                            ✨
+                        <div className="w-16 h-16 bg-[#005596] rounded-2xl flex items-center justify-center shadow-lg mx-auto">
+                            <Sparkles size={32} className="text-[#FDC500]" />
                         </div>
                     </div>
-                    <h1 className="text-4xl font-bold mb-3">
-                        <span className="gradient-text">Create New Event</span>
+                    <h1 className="text-4xl font-bold mb-3 text-slate-800 font-serif">
+                        Create New Event
                     </h1>
-                    <p className="text-slate-400 text-lg">Share your event with the campus community</p>
+                    <p className="text-slate-500 text-lg">Share your event with the campus community</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Event Title */}
                     <div>
-                        <label className="block text-sm font-semibold text-white mb-3 flex items-center gap-2">
-                            <span>📝</span>
+                        <label className="block text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                            <FileText size={18} className="text-[#005596]" />
                             <span>Event Title</span>
                         </label>
                         <input
@@ -58,7 +59,7 @@ const CreateEvent = () => {
                             name="title"
                             required
                             placeholder="e.g., End-of-Year Hackathon"
-                            className="w-full px-5 py-4 glass-dark rounded-xl text-white placeholder-slate-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition border border-transparent focus:border-blue-500/50"
+                            className="w-full px-5 py-4 bg-slate-50 rounded-xl text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-[#005596] focus:outline-none transition border border-slate-200 focus:border-[#005596]"
                             onChange={handleChange}
                         />
                     </div>
@@ -66,21 +67,21 @@ const CreateEvent = () => {
                     {/* Date & Location */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label className="block text-sm font-semibold text-white mb-3 flex items-center gap-2">
-                                <span>📅</span>
+                            <label className="block text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                                <Calendar size={18} className="text-[#005596]" />
                                 <span>Date & Time</span>
                             </label>
                             <input
                                 type="datetime-local"
                                 name="date"
                                 required
-                                className="w-full px-5 py-4 glass-dark rounded-xl text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition border border-transparent focus:border-blue-500/50"
+                                className="w-full px-5 py-4 bg-slate-50 rounded-xl text-slate-800 focus:ring-2 focus:ring-[#005596] focus:outline-none transition border border-slate-200 focus:border-[#005596]"
                                 onChange={handleChange}
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-semibold text-white mb-3 flex items-center gap-2">
-                                <span>📍</span>
+                            <label className="block text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                                <MapPin size={18} className="text-[#005596]" />
                                 <span>Location</span>
                             </label>
                             <input
@@ -88,7 +89,7 @@ const CreateEvent = () => {
                                 name="location"
                                 required
                                 placeholder="e.g., Main Auditorium"
-                                className="w-full px-5 py-4 glass-dark rounded-xl text-white placeholder-slate-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition border border-transparent focus:border-blue-500/50"
+                                className="w-full px-5 py-4 bg-slate-50 rounded-xl text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-[#005596] focus:outline-none transition border border-slate-200 focus:border-[#005596]"
                                 onChange={handleChange}
                             />
                         </div>
@@ -96,8 +97,8 @@ const CreateEvent = () => {
 
                     {/* Description */}
                     <div>
-                        <label className="block text-sm font-semibold text-white mb-3 flex items-center gap-2">
-                            <span>📄</span>
+                        <label className="block text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                            <FileText size={18} className="text-[#005596]" />
                             <span>Description</span>
                         </label>
                         <textarea
@@ -105,15 +106,15 @@ const CreateEvent = () => {
                             rows="5"
                             required
                             placeholder="Tell us about your event..."
-                            className="w-full px-5 py-4 glass-dark rounded-xl text-white placeholder-slate-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition resize-none border border-transparent focus:border-blue-500/50"
+                            className="w-full px-5 py-4 bg-slate-50 rounded-xl text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-[#005596] focus:outline-none transition resize-none border border-slate-200 focus:border-[#005596]"
                             onChange={handleChange}
                         ></textarea>
                     </div>
 
                     {/* Max Participants */}
                     <div>
-                        <label className="block text-sm font-semibold text-white mb-3 flex items-center gap-2">
-                            <span>🎟️</span>
+                        <label className="block text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                            <Users size={18} className="text-[#005596]" />
                             <span>Max Participants</span>
                         </label>
                         <input
@@ -122,7 +123,7 @@ const CreateEvent = () => {
                             required
                             min="1"
                             placeholder="e.g., 50"
-                            className="w-full px-5 py-4 glass-dark rounded-xl text-white placeholder-slate-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition border border-transparent focus:border-blue-500/50"
+                            className="w-full px-5 py-4 bg-slate-50 rounded-xl text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-[#005596] focus:outline-none transition border border-slate-200 focus:border-[#005596]"
                             onChange={handleChange}
                         />
                     </div>
@@ -131,7 +132,7 @@ const CreateEvent = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full gradient-primary text-white font-bold py-5 rounded-xl shadow-lg hover:shadow-blue-500/50 transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 text-lg"
+                        className="w-full bg-[#005596] hover:bg-[#00447a] text-white font-bold py-5 rounded-xl shadow-lg hover:shadow-blue-900/20 transition-all transform hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 text-lg"
                     >
                         {loading ? (
                             <>
@@ -140,7 +141,7 @@ const CreateEvent = () => {
                             </>
                         ) : (
                             <>
-                                <span>✨</span>
+                                <Send size={20} />
                                 <span>Publish Event</span>
                             </>
                         )}
