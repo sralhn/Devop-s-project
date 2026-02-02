@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { MapPin, Users, Calendar, ArrowRight } from 'lucide-react';
 
 const EventCard = ({ event }) => {
-    const date = new Date(event.date).toLocaleDateString('en-US', {
+    const date = new Date(event.date).toLocaleDateString('fr-FR', {
         weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
     });
 
