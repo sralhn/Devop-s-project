@@ -13,15 +13,19 @@ enum Role {
 }
 
 model User {
-  id            Int            @id @default(autoincrement())
-  email         String         @unique
-  password      String         // Hashed password
-  name          String
-  role          Role           @default(USER)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  events        Event[]        // Events created by this user
-  registrations Registration[] // Events registered for
+  id                    Int            @id @default(autoincrement())
+  email                 String         @unique
+  password              String         // Hashed password
+  name                  String
+  role                  Role           @default(USER)
+  isBlocked             Boolean        @default(false)        // NEW
+  emailVerified         Boolean        @default(false)
+  verificationToken     String?        @unique
+  verificationExpires   DateTime?
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+  events                Event[]        // Events created by this user
+  registrations         Registration[] // Events registered for
 }
 
 model Event {
