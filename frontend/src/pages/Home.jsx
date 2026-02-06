@@ -24,7 +24,7 @@ const Home = () => {
     }
 
     return (
-        <div className="animate-fade-in-up">
+        <div className="animate-fade-in-up max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             {/* Hero Section */}
             <div className="text-center mb-16 relative">
                 <div className="inline-block mb-4">

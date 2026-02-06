@@ -4,8 +4,10 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import EventDetail from './pages/EventDetail';
 import CreateEvent from './pages/CreateEvent';
+import EditEvent from './pages/EditEvent';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import VerifyEmail from './pages/VerifyEmail';
 import AdminDashboard from './pages/AdminDashboard';
 import { GraduationCap, Crown, User, LogOut, Sparkles, Plus, Compass, Mail, Phone, MapPin as MapPinIcon, Github, Linkedin, Twitter } from 'lucide-react';
 import AixMarseilleLogo from './AixMarseilleLogo.jpeg';
@@ -93,12 +95,13 @@ function App() {
                     <Navigation />
 
                     {/* Main Content */}
-                    <main className="relative z-10 container mx-auto px-6 py-12 flex-1">
+                    <main className="flex-1">
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/events/:id" element={<EventDetail />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/register" element={<Register />} />
+                            <Route path="/verify-email/:token" element={<VerifyEmail />} />
                             <Route
                                 path="/create"
                                 element={
@@ -108,9 +111,17 @@ function App() {
                                 }
                             />
                             <Route
+                                path="/events/:id/edit"
+                                element={
+                                    <ProtectedRoute>
+                                        <EditEvent />
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route
                                 path="/admin"
                                 element={
-                                    <ProtectedRoute adminOnly={true}>
+                                    <ProtectedRoute requireAdmin>
                                         <AdminDashboard />
                                     </ProtectedRoute>
                                 }
@@ -126,12 +137,12 @@ function App() {
                             <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400 rounded-full blur-3xl"></div>
                         </div>
 
-                        <div className="relative container mx-auto px-6 py-12">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                        <div className="relative container mx-auto px-6 py-8">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                                 {/* Brand Section */}
                                 <div>
                                     <div className="flex items-center gap-3 mb-4">
-                                        <div className="w-12 h-12 bg-white rounded-xl overflow-hidden shadow-lg">
+                                        <div className="w-10 h-10 bg-white rounded-xl overflow-hidden shadow-lg">
                                             <img src={AixMarseilleLogo} alt="AMU Logo" className="w-full h-full object-contain p-1" />
                                         </div>
                                         <div>
@@ -144,7 +155,7 @@ function App() {
                                     <p className="text-slate-300 text-sm leading-relaxed mb-4">
                                         Excellence in Campus Life. Connecting the AMU community through memorable events and experiences.
                                     </p>
-                                    <div className="flex gap-3">
+                                    <div className="flex gap-2">
                                         <a href="https://x.com/AcAixMarseille" className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-all hover:scale-110">
                                             <Twitter size={18} />
                                         </a>
@@ -185,7 +196,7 @@ function App() {
                                 {/* Contact Info */}
                                 <div>
                                     <h3 className="text-lg font-bold mb-4 text-[#FDC500]">Contact Us</h3>
-                                    <ul className="space-y-3">
+                                    <ul className="space-y-2">
                                         <li className="flex items-start gap-2 text-slate-300 text-sm">
                                             <MapPinIcon size={16} className="mt-0.5 flex-shrink-0" />
                                             <span>Aix-Marseille University<br />58 Boulevard Charles Livon<br />13007 Marseille, France</span>
@@ -203,7 +214,7 @@ function App() {
                             </div>
 
                             {/* Bottom Bar */}
-                            <div className="pt-8 border-t border-white/10">
+                            <div className="pt-6 border-t border-white/10">
                                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                                     <div className="text-sm text-slate-300">
                                         © 2026 Aix-Marseille University. All rights reserved.

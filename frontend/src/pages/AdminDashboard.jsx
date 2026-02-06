@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../api/events';
 import { useAuth } from '../context/AuthContext';
-import { Crown, Users, Calendar, Ticket, Trash2, MapPin } from 'lucide-react';
+import { Crown, Users, Calendar, Ticket, Trash2, MapPin, Ban, Edit, Shield } from 'lucide-react';
+import EditEventModal from '../components/EditEventModal';
 
 const AdminDashboard = () => {
     const [users, setUsers] = useState([]);
     const [events, setEvents] = useState([]);
     const [registrations, setRegistrations] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [editingEvent, setEditingEvent] = useState(null);
     const { user } = useAuth();
 
     useEffect(() => {
@@ -41,6 +43,50 @@ const AdminDashboard = () => {
         } catch (error) {
             alert('❌ Failed to delete event');
         }
+    };
+
+    const handleDeleteUser = async (userId) => {
+        if (!confirm('Are you sure you want to delete this user? This will also delete their events and registrations.')) return;
+
+        try {
+            await api.delete(`/admin/users/${userId}`);
+            setUsers(users.filter(u => u.id !== userId));
+            alert('✅ User deleted successfully');
+        } catch (error) {
+            console.error(error);
+            alert(error.response?.data?.error || '❌ Failed to delete user');
+        }
+    };
+
+    const handleToggleBlock = async (user) => {
+        const action = user.isBlocked ? 'unblock' : 'block';
+        if (!confirm(`Are you sure you want to ${action} this user?`)) return;
+
+        try {
+            const res = await api.put(`/admin/users/${user.id}/block`);
+            setUsers(users.map(u => u.id === user.id ? { ...u, isBlocked: res.data.user.isBlocked } : u));
+            alert(`✅ User ${action}ed successfully`);
+        } catch (error) {
+            console.error(error);
+            alert(error.response?.data?.error || `❌ Failed to ${action} user`);
+        }
+    };
+
+    const handleChangeRole = async (userId, newRole) => {
+        if (!confirm(`Are you sure you want to change this user's role to ${newRole}?`)) return;
+
+        try {
+            const res = await api.put(`/admin/users/${userId}/role`, { role: newRole });
+            setUsers(users.map(u => u.id === userId ? { ...u, role: res.data.user.role } : u));
+            alert('✅ User role updated successfully');
+        } catch (error) {
+            console.error(error);
+            alert(error.response?.data?.error || '❌ Failed to update role');
+        }
+    };
+
+    const handleEventUpdate = (updatedEvent) => {
+        setEvents(events.map(e => e.id === updatedEvent.id ? { ...e, ...updatedEvent } : e));
     };
 
     if (loading) {
@@ -124,13 +170,22 @@ const AdminDashboard = () => {
                                         <span className="flex items-center gap-1"><Users size={14} /> {event.registrations.length}/{event.maxSpots}</span>
                                     </div>
                                 </div>
-                                <button
-                                    onClick={() => handleDeleteEvent(event.id)}
-                                    className="bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 px-6 py-3 rounded-xl font-semibold transition flex items-center gap-2"
-                                >
-                                    <Trash2 size={18} />
-                                    <span>Delete</span>
-                                </button>
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={() => setEditingEvent(event)}
+                                        className="bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-100 px-4 py-3 rounded-xl font-semibold transition flex items-center gap-2"
+                                    >
+                                        <Edit size={18} />
+                                        <span>Edit</span>
+                                    </button>
+                                    <button
+                                        onClick={() => handleDeleteEvent(event.id)}
+                                        className="bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 px-4 py-3 rounded-xl font-semibold transition flex items-center gap-2"
+                                    >
+                                        <Trash2 size={18} />
+                                        <span>Delete</span>
+                                    </button>
+                                </div>
                             </div>
                         ))
                     )}
@@ -152,6 +207,7 @@ const AdminDashboard = () => {
                                 <th className="text-left py-3 px-4 text-sm font-semibold text-slate-500">Role</th>
                                 <th className="text-left py-3 px-4 text-sm font-semibold text-slate-500">Events Created</th>
                                 <th className="text-left py-3 px-4 text-sm font-semibold text-slate-500">Registrations</th>
+                                <th className="text-left py-3 px-4 text-sm font-semibold text-slate-500">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -160,16 +216,44 @@ const AdminDashboard = () => {
                                     <td className="py-3 px-4 text-slate-800 font-medium">{u.name}</td>
                                     <td className="py-3 px-4 text-slate-500">{u.email}</td>
                                     <td className="py-3 px-4">
-                                        <span className={`px-3 py-1 rounded-lg text-xs font-bold flex w-fit items-center gap-1 ${u.role === 'ADMIN'
-                                                ? 'bg-[#005596]/10 text-[#005596] border border-[#005596]/20'
-                                                : 'bg-slate-100 text-slate-600 border border-slate-200'
-                                            }`}>
-                                            {u.role === 'ADMIN' && <Crown size={12} />}
-                                            {u.role}
-                                        </span>
+                                        <select
+                                            value={u.role}
+                                            onChange={(e) => handleChangeRole(u.id, e.target.value)}
+                                            disabled={u.id === user?.id}
+                                            className={`px-2 py-1 rounded-lg text-xs font-bold border ${u.role === 'ADMIN'
+                                                ? 'bg-[#005596]/10 text-[#005596] border-[#005596]/20'
+                                                : 'bg-slate-50 text-slate-600 border-slate-200'
+                                                } focus:outline-none focus:ring-2 focus:ring-[#005596]/50 cursor-pointer`}
+                                        >
+                                            <option value="USER">USER</option>
+                                            <option value="ADMIN">ADMIN</option>
+                                        </select>
                                     </td>
                                     <td className="py-3 px-4 text-slate-500">{u._count?.events || 0}</td>
                                     <td className="py-3 px-4 text-slate-500">{u._count?.registrations || 0}</td>
+                                    <td className="py-3 px-4 flex items-center gap-2">
+                                        {u.id !== user?.id && (
+                                            <>
+                                                <button
+                                                    onClick={() => handleToggleBlock(u)}
+                                                    className={`p-2 rounded-lg transition ${u.isBlocked
+                                                        ? 'text-emerald-500 hover:text-emerald-700 hover:bg-emerald-50'
+                                                        : 'text-amber-500 hover:text-amber-700 hover:bg-amber-50'
+                                                        }`}
+                                                    title={u.isBlocked ? "Unblock User" : "Block User"}
+                                                >
+                                                    {u.isBlocked ? <Shield size={18} /> : <Ban size={18} />}
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeleteUser(u.id)}
+                                                    className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition"
+                                                    title="Delete User"
+                                                >
+                                                    <Trash2 size={18} />
+                                                </button>
+                                            </>
+                                        )}
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
@@ -206,6 +290,15 @@ const AdminDashboard = () => {
                     </table>
                 </div>
             </div>
+
+            {/* Edit Modal */}
+            {editingEvent && (
+                <EditEventModal
+                    event={editingEvent}
+                    onClose={() => setEditingEvent(null)}
+                    onUpdate={handleEventUpdate}
+                />
+            )}
         </div>
     );
 };

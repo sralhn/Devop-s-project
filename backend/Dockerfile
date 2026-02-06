@@ -12,5 +12,7 @@ RUN npx prisma generate
 
 EXPOSE 3000
 
-# Initialize database and start server
-CMD npx prisma db push --force-reset --accept-data-loss && npm start
+# Sync database schema and start server
+# Using 'db push' instead of 'migrate deploy' to sync schema directly
+# This is appropriate for development/POC environments
+CMD npx prisma db push && npm start
