@@ -16,7 +16,13 @@ const { sendVerificationEmail } = require('./services/email.service');
 // Validation rules
 const registerValidation = [
     body('email').isEmail().withMessage('Valid email required'),
-    body('password').isLength({ min: 4 }).withMessage('Password must be at least 4 characters'),
+    body('password').isStrongPassword({
+        minLength: 8,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1
+    }).withMessage('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one symbol'),
     body('name').notEmpty().withMessage('Name is required')
 ];
 
