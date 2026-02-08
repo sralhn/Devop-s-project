@@ -75,7 +75,7 @@ const Login = () => {
                             <Mail size={20} className="text-amber-600 mt-0.5" />
                             <div className="flex-1">
                                 <p className="text-sm text-amber-800 mb-3">
-                                    Your email address hasn't been verified yet. Please check your inbox for the verification link.
+                                    Your email address hasn t been verified yet. Please check your inbox for the verification link.
                                 </p>
                                 {resendSuccess ? (
                                     <p className="text-sm text-emerald-700 font-semibold">
@@ -145,7 +145,7 @@ const Login = () => {
 
                 <div className="mt-8 text-center">
                     <p className="text-slate-500 text-sm">
-                        Don't have an account?{' '}
+                        Don t have an account?{' '}
                         <Link to="/register" className="text-[#005596] hover:text-[#00447a] font-semibold transition">
                             Create one
                         </Link>

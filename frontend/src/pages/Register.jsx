@@ -51,7 +51,7 @@ const Register = () => {
                         </div>
                         <h1 className="text-3xl font-bold text-slate-800 mb-3 font-serif">Check Your Email!</h1>
                         <p className="text-slate-600 mb-6 leading-relaxed">
-                            We've sent a verification link to <strong>{email}</strong>.
+                            We have sent a verification link to <strong>{email}</strong>.
                             Please check your inbox and click the link to verify your account.
                         </p>
                         <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
