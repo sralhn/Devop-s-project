@@ -1,0 +1,14 @@
+[build]
+builder = "DOCKERFILE"
+
+[deploy]
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+[[services]]
+name = "backend_build"
+dockerfilePath = "backend/Dockerfile"
+
+[[services]]
+name = "frontend_build"
+dockerfilePath = "frontend/Dockerfile"
