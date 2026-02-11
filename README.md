@@ -75,7 +75,7 @@ The application uses a relational SQLite database managed by Prisma. Key models 
 4.  **Access the Application**
     - **Frontend**: [http://localhost:8080](http://localhost:8080)
     - **Backend API**: [http://localhost:3000](http://localhost:3000)
-    - **Mailtrap**: Access the Mailtrap inbox to view simulated emails.
+    - **Brevo**: Access the Brevo inbox to view simulated emails.
 
 ## 🔄 Application Flow
 
